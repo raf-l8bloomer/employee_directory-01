@@ -26,6 +26,11 @@ p {
     min-width: 400px;
 }
 
+.employee-card:hover {
+    background-color: #CAB287;
+    transition: background-color 1s linear;
+}
+
 .employee-info {
     display: flex;
     flex-direction: column;

@@ -21,7 +21,11 @@ async function getUsers(url) {
 
 
 function generateHTML(data) {
+    console.log(data);
+
     data.map(user => {
+        const index = data.indexOf(user)
+        console.log(index);
         const div = document.createElement('div');
         div.className = "employee-card"
         directory.appendChild(div);
@@ -58,8 +62,9 @@ function generateHTML(data) {
     })
 }
 
-// function generateModal(data) {
-//     data.map(user => {
+// function generateModal(data, index) {
+// const selectedUser = data.index
+//     selectedUser.map(user => {
 //         const div = document.createElement('div');
 //         div.className = "modal"
 //         directory.appendChild(div);
@@ -85,11 +90,16 @@ function generateHTML(data) {
 // }
 
 
+// GENERATE MODAL
+// takes the clicked users info and creates a modal 
 
+// converts birthday format to ##/##/##
 function convertBirthday(dob) {
     const birthdate = new Date(dob).toLocaleDateString("en-US");
     return birthdate;
 }
+
+// makes cards clickable to reveal modal with more information
 
 function clickableCards() {
     const employeeCards = document.querySelectorAll('.employee-card');
@@ -108,17 +118,24 @@ function clickableCards() {
     const exit = document.querySelectorAll('.close-btn');
     const exitArray = [...exit];
     console.log(exitArray)
-    
+
     exitArray.forEach(exitBtn =>
         exitBtn.addEventListener('click', () => {
             console.log('exit btn should work')
+            console.log(exitBtn);
             employeeModal.style.display = 'none';
 
         }))
 
 }
 
-
+// closes modal if clicked outside of
+window.addEventListener('click', (e) => {
+    const employeeModal = document.querySelector('.modal')
+    if (e.target.classList.contains('modal')) {
+        employeeModal.style.display = 'none';
+    }
+})
 
 
 getUsers(usersUrl)
@@ -134,8 +151,6 @@ getUsers(usersUrl)
 /*** TO DO
  * 
  * Create Modal pop up function
- * Add Exit button
- * + click outside window to exit
  * 
  * 
  * Add hover state on employee cards
