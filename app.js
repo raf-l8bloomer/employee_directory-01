@@ -106,12 +106,13 @@ function clickableCards() {
     console.log(employeeCards);
     const employeeCardsArray = [...employeeCards];
     console.log(employeeCardsArray);
-    const employeeModal = document.querySelector('.modal')
 
 
 
     employeeCardsArray.forEach(card =>
-        card.addEventListener('click', () => {
+        card.addEventListener('click', (e) => {
+            console.log(e.target)
+            const employeeModal = e.target.querySelector('.modal')
             employeeModal.style.display = 'block';
         }
         ))
@@ -133,12 +134,14 @@ function clickableCards() {
 window.addEventListener('click', (e) => {
     const employeeModal = document.querySelector('.modal')
     if (e.target.classList.contains('modal')) {
+        const employeeModal = document.querySelector('.modal')
+
         employeeModal.style.display = 'none';
     }
 })
 
 
-getUsers(usersUrl)
+const users = getUsers(usersUrl)
     .then(generateHTML)
     .then(clickableCards)
     .catch(e => {
@@ -147,13 +150,9 @@ getUsers(usersUrl)
     })
 
 
-
 /*** TO DO
  * 
  * Create Modal pop up function
- * 
- * 
- * Add hover state on employee cards
  * 
  * 
  * EXTRA CREDIT
