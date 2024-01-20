@@ -22,23 +22,32 @@ async function getUsers(url) {
 
 function generateHTML(data) {
     console.log(data);
-
     data.map(user => {
         const index = data.indexOf(user)
-        console.log(index);
-        const div = document.createElement('div');
-        div.className = "employee-card"
-        directory.appendChild(div);
-        console.log(user.id);
-        let userBirthday = convertBirthday(user.dob.date);
-        div.innerHTML = `
+        const employeeCard = document.createElement('div');
+        employeeCard.className = "employee-card";
+        employeeCard.dataset.index = index;
+        directory.appendChild(employeeCard);
+        employeeCard.innerHTML = `
         <img class="photo" src="${user.picture.large}">
         <div class="employee-info">
         <h2 class="name">${user.name.first} ${user.name.last}</h2>
         <p class="email">${user.email}</p>
         <p class="city">${user.location.city}</p>
-        
-        <div class="modal">
+        </div>
+        `
+        generateModal(user, index);
+    })
+}
+
+function generateModal(user, index) {
+
+    const modal = document.createElement('div');
+    modal.className = "modal";
+    modal.dataset.index = index;
+    directory.appendChild(modal)
+    userBirthday = convertBirthday(user.dob.date);
+    modal.innerHTML = `
         <div class="modal-content">
         <span class="close-btn">&times;</span>
         <img class="photo" src="${user.picture.large}">
@@ -50,15 +59,34 @@ function generateHTML(data) {
         <p class="phone-number">${user.cell}</p>
         <p class="street">${user.location.street.number} ${user.location.street.name}</p>
         <p class="address">${user.location.city}, ${user.location.state} ${user.location.postcode}</p>
-
         <p class="birthday">Birthday: ${userBirthday}</p>
         </div>
-        </div>
-        `;
-        // const modal = document.createElement('div');
-        // modal.className = "modal";
-        // directory.appendChild(modal)
+        `
+    // modal.toggle('.show-modal')
+}
 
+function toggleModal(modal) {
+    modal.classList.toggle("show-modal");
+}
+
+function clickableCards() {
+    const employeeCards = document.querySelectorAll('.employee-card')
+    const employeeCardsArray = [...employeeCards];
+
+    employeeCardsArray.forEach(card => {
+        card.addEventListener('click', (e) => {
+            const cardIndex = e.target.getAttribute('data-index');
+            console.log(cardIndex)
+            const datasetModal = document.querySelectorAll('[data-index]')
+            const datasetModalArray = [...datasetModal];
+            datasetModalArray.forEach(modal => {
+                console.log(modal);
+                if (modal.dataset.index == cardIndex) {
+                    console.log('modal should come on')
+                    toggleModal(modal);
+                }
+            })
+        })
     })
 }
 
@@ -99,56 +127,66 @@ function convertBirthday(dob) {
     return birthdate;
 }
 
-// makes cards clickable to reveal modal with more information
 
-function clickableCards() {
-    const employeeCards = document.querySelectorAll('.employee-card');
-    console.log(employeeCards);
-    const employeeCardsArray = [...employeeCards];
-    console.log(employeeCardsArray);
+// Takes created cards and makes them clickable to reveal modal with more information
 
 
 
-    employeeCardsArray.forEach(card =>
-        card.addEventListener('click', (e) => {
-            console.log(e.target)
-            const employeeModal = e.target.querySelector('.modal')
-            employeeModal.style.display = 'block';
-        }
-        ))
-    const exit = document.querySelectorAll('.close-btn');
-    const exitArray = [...exit];
-    console.log(exitArray)
 
-    exitArray.forEach(exitBtn =>
-        exitBtn.addEventListener('click', () => {
-            console.log('exit btn should work')
-            console.log(exitBtn);
-            employeeModal.style.display = 'none';
+// function clickableCards() {
+//     const employeeCards = document.querySelectorAll('.employee-card');
+//     console.log(employeeCards);
+//     const employeeCardsArray = [...employeeCards];
+//     console.log(employeeCardsArray);
 
-        }))
 
-}
+
+//     employeeCardsArray.forEach(card =>
+//         card.addEventListener('click', (e) => {
+//             console.log(e.target)
+//             const employeeModal = e.target.querySelector('.modal')
+//             employeeModal.style.display = 'block';
+//         }
+//         ))
+//     const exit = document.querySelectorAll('.close-btn');
+//     const exitArray = [...exit];
+//     console.log(exitArray)
+
+//     exitArray.forEach(exitBtn =>
+//         exitBtn.addEventListener('click', () => {
+//             console.log('exit btn should work')
+//             console.log(exitBtn);
+//             employeeModal.style.display = 'none';
+
+//         }))
+
+// }
 
 // closes modal if clicked outside of
-window.addEventListener('click', (e) => {
-    const employeeModal = document.querySelector('.modal')
-    if (e.target.classList.contains('modal')) {
-        const employeeModal = document.querySelector('.modal')
+// window.addEventListener('click', (e) => {
+//     if (e.target.classList.contains('modal')) {
+//         const employeeModal = document.querySelector('.modal')
+//         employeeModal.style.display = 'none';
+//     }
+// })
 
-        employeeModal.style.display = 'none';
+
+
+function windowOnClick(e) {
+    if (e.target === modal) {
+        toggleModal();
     }
-})
+}
 
 
-const users = getUsers(usersUrl)
+
+getUsers(usersUrl)
     .then(generateHTML)
     .then(clickableCards)
     .catch(e => {
         directory.innerHTML = '<h3>Something went wrong!</h3>';
         console.error(e);
     })
-
 
 /*** TO DO
  * 
