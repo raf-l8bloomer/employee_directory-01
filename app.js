@@ -40,6 +40,9 @@ function generateHTML(data) {
     })
 }
 
+// GENERATE MODAL
+// takes the clicked users info and creates a modal 
+
 function generateModal(user, index) {
 
     const modal = document.createElement('div');
@@ -61,13 +64,15 @@ function generateModal(user, index) {
         <p class="address">${user.location.city}, ${user.location.state} ${user.location.postcode}</p>
         <p class="birthday">Birthday: ${userBirthday}</p>
         </div>
-        `
+        `;
+    closeButton();
     // modal.toggle('.show-modal')
 }
 
 function toggleModal(modal) {
     modal.classList.toggle("show-modal");
 }
+
 
 function clickableCards() {
     const employeeCards = document.querySelectorAll('.employee-card')
@@ -90,36 +95,20 @@ function clickableCards() {
     })
 }
 
-// function generateModal(data, index) {
-// const selectedUser = data.index
-//     selectedUser.map(user => {
-//         const div = document.createElement('div');
-//         div.className = "modal"
-//         directory.appendChild(div);
-//         userBirthday = convertBirthday(user.dob.date);
-//         div.innerHTML = `
-//         <div class="modal-content">
-//         <span class="close-btn">&times;</span>
-//         <img class="photo" src="${user.picture.large}">
-//         <div class="employee-info">
-//         <h2 class="name">${user.name.first} ${user.name.last}</h2>
-//         <p class="email">${user.email}</p>
-//         <p class="city">${user.location.city}</p>
-//         <hr>
-//         <p class="phone-number">${user.cell}</p>
-//         <p class="street">${user.location.street.number} ${user.location.street.name}</p>
-//         <p class="address">${user.location.city}, ${user.location.state} ${user.location.postcode}</p>
-
-//         <p class="birthday">Birthday: ${userBirthday}</p>
-//         </div>
-//         </div>
-//         `
-//     })
-// }
+function closeButton() {
+    const closeButton = document.querySelector(".close-btn");
+    const shownModal = document.querySelector('.show-modal')
+    closeButton.addEventListener('click', () => {
+        console.log('close should work')
+        toggleModal(shownModal);
+    })
+}
 
 
-// GENERATE MODAL
-// takes the clicked users info and creates a modal 
+
+
+
+
 
 // converts birthday format to ##/##/##
 function convertBirthday(dob) {
@@ -171,12 +160,16 @@ function convertBirthday(dob) {
 // })
 
 
-
-function windowOnClick(e) {
-    if (e.target === modal) {
-        toggleModal();
-    }
-}
+// window.addEventListener('click', (e) => {
+//     if (!e.target.matches('modal')) {
+//         toggleModal();
+//     }
+// })
+// function windowOnClick(e) {
+//     if (e.target === modal) {
+//         toggleModal();
+//     }
+// }
 
 
 
