@@ -49,8 +49,11 @@ hr {
 }
 
 .modal {
-    display: none;
+    /* display: none;*/
     position: fixed;
+    display: block;
+    opacity: 1;
+    visibility: visible;
     padding-top: 50px;
     left: 0;
     top: 0;
@@ -61,9 +64,7 @@ hr {
 }
 
 .show-modal {
-    display: block;
-    opacity: 1;
-    visibility: visible;
+
     /* transform: scale(1.0);
     transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s */
 }

@@ -36,14 +36,14 @@ function generateHTML(data) {
         <p class="city">${user.location.city}</p>
         </div>
         `
-        generateModal(user, index);
+        // generateModal(user, index);
     })
 }
 
 // GENERATE MODAL
 // takes the clicked users info and creates a modal 
 
-function generateModal(user, index) {
+function generateModal(index) {
 
     const modal = document.createElement('div');
     modal.className = "modal";
@@ -81,6 +81,7 @@ function clickableCards() {
     employeeCardsArray.forEach(card => {
         card.addEventListener('click', (e) => {
             const cardIndex = e.target.getAttribute('data-index');
+            generateModal(cardIndex);
             console.log(cardIndex)
             const datasetModal = document.querySelectorAll('[data-index]')
             const datasetModalArray = [...datasetModal];
@@ -94,6 +95,10 @@ function clickableCards() {
         })
     })
 }
+/* what if on click, you make another API request
+and instead generate Modal with that data using dataset.index
+if statement to make sure it matches the target
+*/
 
 function closeButton() {
     const closeButton = document.querySelector(".close-btn");
