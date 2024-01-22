@@ -9,8 +9,22 @@ but where does the rest of the info come from?
 
 const usersUrl = 'https://randomuser.me/api/?nat=us&results=12'
 const directory = document.querySelector('.directory')
-
+const input = document.querySelector('#search');
 let peopleJSON;
+
+input.addEventListener('keyup', e=> {
+    let currentValue = e.target.value.toLowerCase();
+    console.log(currentValue)
+    let names = document.querySelectorAll('h2.name');
+    names.forEach(name => {
+        if (name.textContent.toLowerCase().includes(currentValue)){
+            name.parentNode.parentNode.style.display = 'block'
+        } else (
+            name.parentNode.parentNode.style.display = 'none'
+        )
+    })
+    console.log(names);
+})
 
 
 async function getJSON(url) {
@@ -26,6 +40,7 @@ async function getJSON(url) {
 async function getUsers(url) {
     peopleJSON = await getJSON(url);
     peopleJSON = peopleJSON.results;
+    console.log(peopleJSON);
     return peopleJSON;
 }
 
@@ -54,6 +69,7 @@ function generateModal(data, index) {
     console.log(user);
     const modal = document.createElement('div');
     modal.className = "modal";
+    modal.setAttribute("id", index);
     directory.appendChild(modal)
     userBirthday = convertBirthday(user.dob.date);
     modal.innerHTML = `
@@ -69,9 +85,11 @@ function generateModal(data, index) {
         <p class="street">${user.location.street.number} ${user.location.street.name}</p>
         <p class="address">${user.location.city}, ${user.location.state} ${user.location.postcode}</p>
         <p class="birthday">Birthday: ${userBirthday}</p>
+        <div class='pagination'></div>
         </div>
         `;
     closeBtn();
+    modalPagination();
 }
 
 // converts birthday format to ##/##/##
@@ -79,10 +97,6 @@ function convertBirthday(dob) {
     const birthdate = new Date(dob).toLocaleDateString("en-US");
     return birthdate;
 }
-
-// function toggleModal() {
-//     modal.classList.toggle("show-modal");
-// }
 
 function clickableCards() {
     const employeeCards = document.querySelectorAll('.employee-card');
@@ -95,26 +109,61 @@ function clickableCards() {
                 const targetIndex = card.getAttribute('data-index');
                 generateModal(peopleJSON, targetIndex);
             }
-            // const targetIndex = e.target.getAttribute('data-index');
-            // console.log(targetIndex);
-            // generateModal(peopleJSON, targetIndex);
-            // toggleModal();
         })
     })
-
-
 }
 
-// function removeModal(index){
+function removeModal() {
+    const modal = document.querySelector('.modal');
+    modal.remove();
+}
 
-// }
-
-function closeBtn () {
+function closeBtn() {
     const closeBtn = document.querySelector('.close-btn');
-    closeBtn.addEventListener('click', () => {
-        const modal = document.querySelector('.modal');
-        modal.remove();
+    closeBtn.addEventListener('click', (e) => {
+        removeModal();
     })
+}
+
+window.addEventListener('click', (e) => {
+    if (e.target.matches('.modal')) {
+        removeModal();
+    }
+})
+
+function modalPagination() {
+    const modal = document.querySelector('.modal');
+    let currentIndex = parseInt(modal.getAttribute('id'));
+    const pagination = document.querySelector('.pagination');
+
+    if (currentIndex > 0) {
+        pagination.insertAdjacentHTML(
+            'beforeend',
+            "<button class='button' id='left'>Previous Employee</button>"
+        )
+        const left = document.querySelector('#left');
+        left.addEventListener('click', () => {
+            removeModal();
+            currentIndex -= 1;
+            console.log(currentIndex);
+            generateModal(peopleJSON, currentIndex);
+        })
+
+    }
+    if (currentIndex < 11) {
+        pagination.insertAdjacentHTML(
+            'beforeend',
+            "<button class='button' id='right'>Next Employee</button>"
+        )
+
+        const right = document.querySelector('#right');
+        right.addEventListener('click', () => {
+            removeModal();
+            currentIndex += 1;
+            console.log(currentIndex);
+            generateModal(peopleJSON, currentIndex);
+        })
+    }
 }
 
 

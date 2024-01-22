@@ -7,10 +7,19 @@ p {
     margin-bottom: 0;
 }
 
+input {
+    width: 500px;
+    max-width: 80%;
+
+}
+
+.input-container {
+    display: block;
+    text-align: center;
+}
 .directory {
     display: grid;
     grid-template-columns: 1fr;
-
 }
 
 .employee-card {
@@ -27,8 +36,8 @@ p {
 }
 
 .employee-card:hover {
-    background-color: #CAB287;
-    transition: background-color 1s linear;
+    background-color: greenyellow;
+    transition: background-color 0.2s ease;
 }
 
 .employee-info {
@@ -49,7 +58,6 @@ hr {
 }
 
 .modal {
-    /* display: none;*/
     position: fixed;
     display: block;
     opacity: 1;
@@ -63,18 +71,13 @@ hr {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-.show-modal {
-
-    /* transform: scale(1.0);
-    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s */
-}
 .modal-content {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: auto;
     width: 700px;
-    height: 600px;
+    height: 450px;
     background-color: white;
     z-index: 1;
     -webkit-animation-name: animatetop;
@@ -89,21 +92,58 @@ hr {
 }
 
 .close-btn:hover {
-    color: red;
+    color: green;
+    cursor: pointer;
 }
 
 .modal .employee-info {
     align-items: center;
 }
 
+.pagination {
+    display: flex;
+    flex-direction: row;
+    gap: 10px; 
+    margin-top: 40px;
+    margin-bottom: 20px;
+
+}
+
+.button {
+    cursor: pointer;
+}
+
+#left {
+    margin-right: auto;
+}
+
+#right {
+    margin-left: auto;
+}
+
 @-webkit-keyframes animatetop {
-    from {top:-300px; opacity:0} 
-    to {top:0; opacity:1}
-  }
-  @keyframes animatetop {
-    from {top:-300px; opacity:0}
-    to {top:0; opacity:1}
-  }
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
 
 @media (min-width: 768px) {
 
