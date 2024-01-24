@@ -1,11 +1,3 @@
-/* make cards clickable
-upon click, generate modal
-
-in generating the modal, you look up the user with their data-index
-and pull the rest of their information
-but where does the rest of the info come from?
-
-*/
 
 const usersUrl = 'https://randomuser.me/api/?nat=us&results=12'
 const directory = document.querySelector('.directory')
@@ -18,7 +10,7 @@ input.addEventListener('keyup', e=> {
     let names = document.querySelectorAll('h2.name');
     names.forEach(name => {
         if (name.textContent.toLowerCase().includes(currentValue)){
-            name.parentNode.parentNode.style.display = 'block'
+            name.parentNode.parentNode.style.display = 'flex'
         } else (
             name.parentNode.parentNode.style.display = 'none'
         )
